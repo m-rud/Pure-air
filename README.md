@@ -1,6 +1,6 @@
 # pure_air
 
-Weather and air purity flutter app
+Weather and air purity app
 
 ## Getting Started
 

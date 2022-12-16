@@ -1,5 +1,5 @@
 name: pure_air
-description: Weather and air purity flutter app
+description: Weather and air purity app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
