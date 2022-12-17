@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'SplashScreen.dart';
+import 'package:pure_air/PermissionScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,18 +8,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  final String _title = 'Pure Air';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      title: Strings.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(title: _title),
+      home: const PermissionScreen(),
     );
   }
+}
+
+class Strings {
+  static const String appTitle = 'Pure Air';
 }
 
 

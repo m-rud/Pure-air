@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key, required this.title}) : super(key: key);
+import 'main.dart';
 
-  final String title;
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   SplashScreenState createState() => SplashScreenState();
@@ -32,7 +32,7 @@ class SplashScreenState extends State<SplashScreen> {
                 children: <Widget>[
                   const Image(image: AssetImage('icons/cloud-sun.png')),
                   const Padding(padding: EdgeInsets.only(top: 5.0)),
-                  Text(widget.title,
+                  Text(Strings.appTitle,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lato(
                           textStyle: const TextStyle(
