@@ -23,14 +23,17 @@ class AirScreenState extends State<AirScreen> {
                 gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
-                    colors: [Color(0xff6671e5), Color(0xff4852d9)])),
+                    colors: [Color(0xff4acf8c), Color(0xff75EDA6)])),
           ),
           Align(
             alignment: FractionalOffset.center,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Image(image: AssetImage('icons/cloud-sun.png')),
+                  const Image(
+                    image: AssetImage('icons/cloud-sun.png'),
+                    color: Colors.black,
+                  ),
                   const Padding(padding: EdgeInsets.only(top: 5.0)),
                   Text(Strings.appTitle,
                       textAlign: TextAlign.center,
@@ -38,7 +41,7 @@ class AirScreenState extends State<AirScreen> {
                           textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 42.0,
-                        color: Colors.white,
+                        color: Colors.black,
                       ))),
                   const Padding(padding: EdgeInsets.only(top: 10.0)),
                   Text('Air',
@@ -46,7 +49,7 @@ class AirScreenState extends State<AirScreen> {
                       style: GoogleFonts.lato(
                           textStyle: const TextStyle(
                         fontSize: 16.0,
-                        color: Colors.white,
+                        color: Colors.black,
                       ))),
                 ]),
           ),
@@ -62,7 +65,7 @@ class AirScreenState extends State<AirScreen> {
                           textStyle: const TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 18.0,
-                        color: Colors.white,
+                        color: Colors.black,
                       )))))
         ],
       ),

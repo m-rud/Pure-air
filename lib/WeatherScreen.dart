@@ -24,7 +24,7 @@ class WeatherScreenState extends State<WeatherScreen> {
                 gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
-                    colors: [Color(0xff6671e5), Color(0xff4852d9)])),
+                    colors: [Color(0xff6e6cd8), Color(0xff77e1ee)])),
           ),
           Align(
             alignment: FractionalOffset.center,
