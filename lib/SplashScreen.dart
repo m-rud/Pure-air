@@ -94,8 +94,8 @@ class SplashScreenState extends State<SplashScreen> {
 
   void executeOnceAfterBuild() async {
     WeatherFactory wf = WeatherFactory("b9b26b0a2dc98163b8412c022f815653", language: Language.ENGLISH);
-    Weather w = await wf.currentWeatherByCityName("Lublin");
+    Weather w = await wf.currentWeatherByCityName("Czestochowa");
     log(w.toJson().toString());
-
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(weather: w)));
   }
 }
