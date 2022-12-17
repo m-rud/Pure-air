@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'main.dart';
-
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({Key? key}) : super(key: key);
 
@@ -31,46 +29,55 @@ class WeatherScreenState extends State<WeatherScreen> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Image(image: AssetImage('icons/cloud-sun.png')),
-                  const Padding(padding: EdgeInsets.only(top: 5.0)),
-                  Text(Strings.appTitle,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 42.0,
-                        color: Colors.white,
-                      ))),
-                  const Padding(padding: EdgeInsets.only(top: 10.0)),
-                  Text('Weather',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ))),
+                  const Padding(padding: EdgeInsets.only(top: 45.0)),
+                  const Image(image: AssetImage('icons/weather-sunny.png')),
+                  const Padding(padding: EdgeInsets.only(top: 41.0)),
+                  const Text('Monday 31.05, 9.00PM sunny'),
+                  const Padding(padding: EdgeInsets.only(top: 12.0)),
+                  const Text('14°C'),
+                  const Text('sensed temperature 13°C'),
+                  const Padding(padding: EdgeInsets.only(top: 24.0)),
+                  IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 130,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: const [
+                                Text('Pressure'),
+                                Padding(padding: EdgeInsets.only(top: 2.0)),
+                                Text('1020 hPa')
+                              ],
+                            ),
+                        ),
+                        const VerticalDivider(
+                          width: 48,
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          width: 130,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text('Wind'),
+                              Padding(padding: EdgeInsets.only(top: 2.0)),
+                              Text('16 km/h')
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 24.0)),
+                  const Text('Precipitation 0,1 mm/12h'),
+                  const Padding(padding: EdgeInsets.only(top: 68.0))
+
                 ]),
           ),
-          Positioned(
-              left: 0,
-              bottom: 35,
-              right: 0,
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Text("I'm importing your data...",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 18.0,
-                        color: Colors.white,
-                      )))))
         ],
       ),
     );
-  }
-
-  bool havePermission() {
-    return false;
   }
 }
