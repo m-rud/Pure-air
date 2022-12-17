@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pure_air/MyHomePage.dart';
+import 'package:pure_air/PermissionScreen.dart';
 
 import 'main.dart';
 
@@ -13,6 +15,24 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+        const Duration(seconds: 2),
+        () => {
+              if (havePermission())
+                {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  const MyHomePage()))
+                }
+              else
+                //todo load data
+                {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) =>  const PermissionScreen()))
+                }
+            });
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -60,12 +80,16 @@ class SplashScreenState extends State<SplashScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.lato(
                           textStyle: const TextStyle(
-                            fontWeight: FontWeight.w300,
+                        fontWeight: FontWeight.w300,
                         fontSize: 18.0,
                         color: Colors.white,
                       )))))
         ],
       ),
     );
+  }
+
+  bool havePermission() {
+    return false;
   }
 }

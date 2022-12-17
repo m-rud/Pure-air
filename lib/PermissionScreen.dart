@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pure_air/MyHomePage.dart';
 
 import 'main.dart';
 
@@ -64,8 +65,16 @@ class PermissionScreenState extends State<PermissionScreen> {
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.white),
-                        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 12.0, bottom: 12.0))),
-                        onPressed: () {},
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsets.only(
+                                    top: 12.0, bottom: 12.0))),
+                        onPressed: () {
+                          //todo ask for permissions
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyHomePage()));
+                        },
                         child: const Text('Agree!',
                             style:
                                 TextStyle(fontSize: 16.0, color: Colors.black)),
