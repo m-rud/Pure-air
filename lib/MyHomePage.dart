@@ -44,9 +44,9 @@ class MyHomePageState extends State<MyHomePage> {
         iconSize: 35,
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.air), label: "Air"),
-          BottomNavigationBarItem(icon: Icon(Icons.wb_cloudy), label: "Weather")
+        items: [
+          BottomNavigationBarItem(icon: Image.asset("icons/house.png"), label: "Air", activeIcon: Image.asset("icons/house-checked.png")),
+          BottomNavigationBarItem(icon: Image.asset("icons/cloud.png"), label: "Weather", activeIcon: Image.asset("icons/cloud-checked.png"))
         ],
       ),
     );
