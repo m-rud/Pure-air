@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pure_air/MyHomePage.dart';
 import 'package:pure_air/PermissionScreen.dart';
 import 'package:weather/weather.dart';
+import 'package:http/http.dart' as http;
 
 import 'main.dart';
 
@@ -93,9 +95,55 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void executeOnceAfterBuild() async {
-    WeatherFactory wf = WeatherFactory("b9b26b0a2dc98163b8412c022f815653", language: Language.ENGLISH);
+    WeatherFactory wf = WeatherFactory("26c0c329eb6b31d05e42cc6231061659", language: Language.ENGLISH);
     Weather w = await wf.currentWeatherByCityName("Czestochowa");
     log(w.toJson().toString());
+
+    var lat = 50.760645;
+    var lon = 19.104628;
+    var keyword = 'geo:$lat;$lon';
+    var key = '9bbd4f5eb47447a83f37258dc555b8dd901e1b7e';
+    String endpoint = 'https://api.waqi.info/feed/';
+    String url = '$endpoint/$keyword?token=$key';
+
+    http.Response response = await http.get(Uri.parse(url));
+    log(response.body.toString());
+
+    Map<String, dynamic> jsonBody = jsonDecode(response.body);
+    AirQuality qe = new AirQuality(jsonBody);
+
     Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(weather: w)));
+  }
+}
+
+class AirQuality{
+  bool isGood = false;
+  bool isBad = false;
+  String quality = "";
+  String advice = "";
+  int aqi = 0;
+  int pm25 = 0;
+  int pm10 = 0;
+  String station = "";
+
+  AirQuality(Map<String, dynamic> jsonBody){
+    aqi = int.tryParse(jsonBody['data']['aqi'].toString()) ?? -1;
+    pm25 = int.tryParse(jsonBody['data']['iaqi']['pm25']['v'].toString()) ?? -1;
+    pm10 = int.tryParse(jsonBody['data']['iaqi']['pm10']['v'].toString()) ?? -1;
+    station = jsonBody['data']['city']['name'].toString();
+    setupLevel(aqi);
+  }
+
+  void setupLevel(int aqi) {
+    if (aqi <= 100){
+      quality = 'Very good';
+      advice = "Take advantage of clean air and go outside";
+    } else if (aqi <= 150){
+      quality = 'Not too good';
+      advice = "If you can, stay home, do things online";
+    } else {
+      quality = 'Very bad!';
+      advice = "Definitely stay home!";
+    }
   }
 }
