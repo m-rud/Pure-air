@@ -21,7 +21,6 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -81,10 +80,11 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    if(permissionDenied()) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const PermissionScreen()));
+    if (permissionDenied()) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const PermissionScreen()));
     } else {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) { 
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         executeOnceAfterBuild();
       });
     }
@@ -95,7 +95,8 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void executeOnceAfterBuild() async {
-    WeatherFactory wf = WeatherFactory("26c0c329eb6b31d05e42cc6231061659", language: Language.ENGLISH);
+    WeatherFactory wf = WeatherFactory("26c0c329eb6b31d05e42cc6231061659",
+        language: Language.ENGLISH);
     Weather w = await wf.currentWeatherByCityName("Czestochowa");
     log(w.toJson().toString());
 
@@ -110,35 +111,42 @@ class SplashScreenState extends State<SplashScreen> {
     log(response.body.toString());
 
     Map<String, dynamic> jsonBody = jsonDecode(response.body);
-    AirQuality qe = new AirQuality(jsonBody);
+    AirQuality aq = AirQuality(jsonBody);
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(weather: w)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyHomePage(weather: w, air: aq)));
   }
 }
 
-class AirQuality{
+class AirQuality {
   bool isGood = false;
   bool isBad = false;
   String quality = "";
   String advice = "";
   int aqi = 0;
-  int pm25 = 0;
+  int no2 = 0;
   int pm10 = 0;
   String station = "";
 
-  AirQuality(Map<String, dynamic> jsonBody){
+  AirQuality(Map<String, dynamic> jsonBody) {
     aqi = int.tryParse(jsonBody['data']['aqi'].toString()) ?? -1;
-    pm25 = int.tryParse(jsonBody['data']['iaqi']['pm25']['v'].toString()) ?? -1;
-    pm10 = int.tryParse(jsonBody['data']['iaqi']['pm10']['v'].toString()) ?? -1;
+    no2 = jsonBody['data']['iaqi'].containsKey('no2')
+        ? int.tryParse(jsonBody['data']['iaqi']['no2']['v'].toString()) ?? -1
+        : -1;
+    pm10 = jsonBody['data']['iaqi'].containsKey('pm10')
+        ? int.tryParse(jsonBody['data']['iaqi']['pm10']['v'].toString()) ?? -1
+        : -1;
     station = jsonBody['data']['city']['name'].toString();
     setupLevel(aqi);
   }
 
   void setupLevel(int aqi) {
-    if (aqi <= 100){
+    if (aqi <= 100) {
       quality = 'Very good';
       advice = "Take advantage of clean air and go outside";
-    } else if (aqi <= 150){
+    } else if (aqi <= 150) {
       quality = 'Not too good';
       advice = "If you can, stay home, do things online";
     } else {
