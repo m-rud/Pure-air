@@ -146,9 +146,11 @@ class AirQuality {
     if (aqi <= 100) {
       quality = 'Very good';
       advice = "Take advantage of clean air and go outside";
+      isGood = true;
     } else if (aqi <= 150) {
       quality = 'Not too good';
       advice = "If you can, stay home, do things online";
+      isBad = false;
     } else {
       quality = 'Very bad!';
       advice = "Definitely stay home!";
