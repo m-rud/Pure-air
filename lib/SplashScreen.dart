@@ -126,18 +126,18 @@ class AirQuality {
   String quality = "";
   String advice = "";
   int aqi = 0;
-  int no2 = 0;
-  int pm10 = 0;
+  String no2 = "";
+  String pm10 = "";
   String station = "";
 
   AirQuality(Map<String, dynamic> jsonBody) {
     aqi = int.tryParse(jsonBody['data']['aqi'].toString()) ?? -1;
     no2 = jsonBody['data']['iaqi'].containsKey('no2')
-        ? int.tryParse(jsonBody['data']['iaqi']['no2']['v'].toString()) ?? -1
-        : -1;
+        ? jsonBody['data']['iaqi']['no2']['v'].toString()
+        : "?";
     pm10 = jsonBody['data']['iaqi'].containsKey('pm10')
-        ? int.tryParse(jsonBody['data']['iaqi']['pm10']['v'].toString()) ?? -1
-        : -1;
+        ? jsonBody['data']['iaqi']['pm10']['v'].toString()
+        : "?";
     station = jsonBody['data']['city']['name'].toString();
     setupLevel(aqi);
   }

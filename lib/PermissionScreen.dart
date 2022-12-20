@@ -1,10 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pure_air/MyHomePage.dart';
-import 'package:weather/weather.dart';
 
 import 'main.dart';
 
@@ -74,9 +69,6 @@ class PermissionScreenState extends State<PermissionScreen> {
                                     top: 12.0, bottom: 12.0))),
                         onPressed: () {
                           //todo ask for permissions
-                          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                            executeOnceAfterBuild();
-                          });
                         },
                         child: const Text('Agree!',
                             style:
@@ -87,10 +79,4 @@ class PermissionScreenState extends State<PermissionScreen> {
     );
   }
 
-  void executeOnceAfterBuild() async {
-    WeatherFactory wf = WeatherFactory("b9b26b0a2dc98163b8412c022f815653", language: Language.ENGLISH);
-    Weather w = await wf.currentWeatherByCityName("Czestochowa");
-    log(w.toJson().toString());
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(weather: w)));
-  }
 }
