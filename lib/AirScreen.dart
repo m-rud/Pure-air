@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pure_air/SplashScreen.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class AirScreen extends StatefulWidget {
   const AirScreen({Key? key, required this.air}) : super(key: key);
@@ -12,6 +14,8 @@ class AirScreen extends StatefulWidget {
 }
 
 class AirScreenState extends State<AirScreen> {
+  PanelController _pc = PanelController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,14 +64,19 @@ class AirScreenState extends State<AirScreen> {
                                 height: 1.2,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700))),
-                    Text('CAQI 🛈',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                                fontSize: 16.0,
-                                height: 1.2,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w300)))
+                    RichText(
+                        text: TextSpan(
+                            text: 'CAQI 🛈',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                _pc.open();
+                              },
+                            style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    fontSize: 16.0,
+                                    height: 1.2,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w300))))
                   ],
                 ),
               ),
@@ -238,7 +247,76 @@ class AirScreenState extends State<AirScreen> {
                     )
                   ],
                 ),
-              ))
+              )),
+          SlidingUpPanel(
+            minHeight: 0,
+            maxHeight: 260,
+            controller: _pc,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+            panel: Stack(fit: StackFit.expand, children: [
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(padding: EdgeInsets.only(top: 32.0)),
+                    Text('Index CAQI',
+                        style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 14.0,
+                                height: 1.2,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400))),
+                    const Padding(padding: EdgeInsets.only(top: 8.0)),
+                    Text(
+                        'The CAQI (Common Air Quality Index) allows you to present the situation in Europe in a comparable and easy to understand way. The index value is presented as a single number. The scale ranges from 0 to values above 100 and above very polluted. The higher the value of the indicator, the greater the risk of adverse effects on health and well-being.',
+                        style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 12.0,
+                                height: 1.2,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300))),
+                    const Padding(padding: EdgeInsets.only(top: 14.0)),
+                    Text('Particulate matter PM2.5 and PM10',
+                        style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 14.0,
+                                height: 1.2,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400))),
+                    const Padding(padding: EdgeInsets.only(top: 8.0)),
+                    Text(
+                        'Particulate matter is a mixture of very small particles. PM10 is all dust smaller than 10μm, while in the case of PM2.5 it is not larger than 2.5μm. Particulate pollutants have the ability to adsorb other, very harmful chemical compounds on their surface: dioxins, furans, heavy metals, or benzo(a)pyrene - the most toxic component of smog.',
+                        style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 12.0,
+                                height: 1.2,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300))),
+                  ],
+                ),
+              ),
+              Positioned(
+                  top: 0,
+                  right: -10,
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 16)),
+                      onPressed: () {
+                        _pc.close();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 30,
+                      ),
+                    ),
+                  ))
+            ]),
+          )
         ],
       ),
     );
@@ -297,7 +375,7 @@ class AirScreenState extends State<AirScreen> {
   }
 
   getAdviceImage(AirQuality air) {
-    if(air.isGood) {
+    if (air.isGood) {
       return const AssetImage('icons/happy.png');
     } else if (air.isBad) {
       return const AssetImage('icons/ok.png');
