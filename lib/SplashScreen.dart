@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pure_air/MyHomePage.dart';
 import 'package:pure_air/PermissionScreen.dart';
@@ -80,7 +81,13 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    if (permissionDenied()) {
+    checkPermission();
+  }
+
+  Future checkPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const PermissionScreen()));
     } else {
@@ -90,18 +97,31 @@ class SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  bool permissionDenied() {
-    return false;
+  void executeOnceAfterBuild() async {
+    Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.lowest,
+        forceAndroidLocationManager: true,
+        timeLimit: const Duration(seconds: 5))
+        .then((value) => {loadLocationData(value)})
+        .onError((error, stackTrace) =>
+    {
+      Geolocator.getLastKnownPosition(forceAndroidLocationManager: true)
+          .then((value) => {
+            loadLocationData(value!)
+    })
+    });
   }
 
-  void executeOnceAfterBuild() async {
+  loadLocationData(Position value) async {
+    var lat = value.latitude;
+    var lon = value.longitude;
+    log("${lat.toString()} x ${lon.toString()}");
+
     WeatherFactory wf = WeatherFactory("26c0c329eb6b31d05e42cc6231061659",
         language: Language.ENGLISH);
-    Weather w = await wf.currentWeatherByCityName("Czestochowa");
+    Weather w = await wf.currentWeatherByLocation(lat, lon);
     log(w.toJson().toString());
 
-    var lat = 50.760645;
-    var lon = 19.104628;
     var keyword = 'geo:$lat;$lon';
     var key = '9bbd4f5eb47447a83f37258dc555b8dd901e1b7e';
     String endpoint = 'https://api.waqi.info/feed/';
@@ -118,6 +138,7 @@ class SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(
             builder: (context) => MyHomePage(weather: w, air: aq)));
   }
+
 }
 
 class AirQuality {

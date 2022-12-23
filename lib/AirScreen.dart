@@ -250,7 +250,7 @@ class AirScreenState extends State<AirScreen> {
               )),
           SlidingUpPanel(
             minHeight: 0,
-            maxHeight: 260,
+            maxHeight: 280,
             controller: _pc,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),

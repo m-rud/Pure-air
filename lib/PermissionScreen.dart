@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pure_air/MyHomePage.dart';
+import 'package:pure_air/SplashScreen.dart';
 
 import 'main.dart';
 
@@ -67,8 +70,11 @@ class PermissionScreenState extends State<PermissionScreen> {
                             padding: MaterialStateProperty.all(
                                 const EdgeInsets.only(
                                     top: 12.0, bottom: 12.0))),
-                        onPressed: () {
-                          //todo ask for permissions
+                        onPressed: () async {
+                          LocationPermission permission = await Geolocator.requestPermission();
+                          if(permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SplashScreen()));
+                          }
                         },
                         child: const Text('Agree!',
                             style:
